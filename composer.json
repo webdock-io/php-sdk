@@ -2,9 +2,6 @@
     "name": "webdock/php-sdk",
     "description": "Webdock API Wrapper for PHP",
     "type": "library",
-    "require-dev": {
-        "phpunit/phpunit": "^9.2"
-    },
     "license": "MIT",
     "authors": [
         {
@@ -16,9 +13,17 @@
     "require": {
         "guzzlehttp/guzzle": ">= 6.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2"
+    },
     "autoload": {
         "psr-4": {
             "Webdock\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": { 
+            "Webdock\\Tests\\": "tests/" 
         }
     }
 }
