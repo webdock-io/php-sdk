@@ -1,0 +1,19 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    name: checkout and test 
+    steps:
+    - name: checkout project
+      uses: actions/checkout@v2
+    - uses: php-actions/composer@v1
+    - uses: php-actions/phpunit@v9
+    - name: PHPUnit Test
+      uses: php-actions/phpunit@v9
+      with:
+        memory_limit: 256M
+        configuration: phpunit.xml
+      
