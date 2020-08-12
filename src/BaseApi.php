@@ -17,7 +17,7 @@ abstract class BaseApi implements ApiInterface {
         } catch (RequestException $e) {
             throw new WebdockException($e->getMessage());
         } finally {
-            return $request->getBody();
+            return json_decode($request->getBody(), true);
         }
     }
 
