@@ -34,15 +34,16 @@ class BaseEntity implements EntityInterface
                     $item
                 );
                 $errors[] = $error;
+                continue;
+            }
+
+            if (in_array($rules[$item]['nullable'])) {
+                if (is_null($itemValue) || $itemValue === '') {
+                    continue;
+                }
             }
 
             foreach ($rules[$item] as $ruleName => $ruleValue) {
-                if (in_array($rules[$item]['nullable'])) {
-                    if (is_null($itemValue) || $itemValue === '') {
-                        continue;
-                    }
-                }
-
                 switch ($ruleName) {
                     case 'alphanum':
                         if (!$this->isAlphaNum($itemValue)) {
@@ -85,13 +86,13 @@ class BaseEntity implements EntityInterface
                         break;
                 }
             }
-
-            if (count($errors) > 0) {
-                $errorMessage = join('\n', $errors);
-                throw new EntityException($errorMessage);
-            }
-
-            return true;
         }
+        
+        if (count($errors) > 0) {
+            $errorMessage = join('\n', $errors);
+            throw new EntityException($errorMessage);
+        }
+
+        return true;
     }
 }

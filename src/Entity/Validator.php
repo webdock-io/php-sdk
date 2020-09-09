@@ -15,7 +15,7 @@ trait Validator
 
     public function isAlphaNum(string $input)
     {
-      return ctype_alnum($string);
+      return ctype_alnum($input);
     }
 
     public function isAlpha($string $input)
