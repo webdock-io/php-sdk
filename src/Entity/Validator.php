@@ -57,6 +57,7 @@ trait Validator
                             );
                             $errors[] = $error;
                         }
+                        break;
                     case 'alpha':
                         if (!$this->isAlpha($itemValue)) {
                             $error = sprintf(
@@ -66,6 +67,7 @@ trait Validator
                             );
                             $errors[] = $error;
                         }
+                        break;
                     case 'ipv4':
                         if (!$this->isIPv4($itemValue)) {
                             $error = sprintf(
@@ -75,6 +77,7 @@ trait Validator
                             );
                             $errors[] = $error;
                         }
+                        break;
                     case 'ipv6':
                         if (!$this->isIPv6($itemValue)) {
                             $error = sprintf(
@@ -84,6 +87,7 @@ trait Validator
                             );
                             $errors[] = $error;
                         }
+                        break;
                     case 'minLength':
                         if (strlen($itemValue) < $ruleValue) {
                             $error = sprintf(
@@ -103,6 +107,31 @@ trait Validator
                             );
                             $errors[] = $error;
                         }
+                        break;
+                    case 'enum':
+                        if (!in_array($itemValue, $ruleValue)) {
+                            $error = sprintf('%s is invalid value', $item);
+                            $errors[] = $error;
+                        }
+                        break;
+                    case 'arrayOfString':
+                        if (!is_array($itemValue)) {
+                            $error = sprintf('%s must be array.', $item);
+                            $errors[] = $error;
+                            break;
+                        }
+                        $stingValues = array_map(function ($value) {
+                            return is_string($value);
+                        }, $itemValue);
+                        if (in_array(false, $stringValues)) {
+                            $error = sprintf(
+                                '%s value of array must be string.',
+                                $item
+                            );
+                            $errors[] = $error;
+                            break;
+                        }
+
                     default:
                         # code...
                         break;
