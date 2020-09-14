@@ -13,6 +13,11 @@ trait Validator
         return filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
     }
 
+    public function isInt64($input)
+    {
+        return ctype_digit($input);
+    }
+
     public function isAlphaNum(string $input)
     {
         return ctype_alnum($input);
@@ -38,9 +43,15 @@ trait Validator
                 continue;
             }
 
-            if (in_array($rules[$item]['nullable'])) {
+            if (in_array('nullable', $rules[$item])) {
                 if (is_null($itemValue) || $itemValue === '') {
                     continue;
+                }
+            }
+
+            if (in_array('default', $rules[$item])) {
+                if (is_null($itemValue) || $itemValue === '') {
+                    $itemValue = $rules[$item]['default'];
                 }
             }
 
@@ -48,6 +59,21 @@ trait Validator
                 $rule = is_string($ruleName) ? $ruleName : $ruleValue;
 
                 switch ($rule) {
+                    case 'int64':
+                        if (!$this->isInt64($itemValue)) {
+                            $error = sprintf('%s is not a valid int64', $item);
+                            $errors[] = $error;
+                        }
+                        break;
+                    case 'boolean':
+                        if (!is_bool($itemValue)) {
+                            $error = sprintf(
+                                '%s is not a boolean value',
+                                $item
+                            );
+                            $errors[] = $error;
+                        }
+                        break;
                     case 'alphanum':
                         if (!$this->isAlphaNum($itemValue)) {
                             $error = sprintf(
@@ -129,9 +155,18 @@ trait Validator
                                 $item
                             );
                             $errors[] = $error;
+                        }
+                        break;
+                    case 'datetime':
+                        if ((bool) strtotime($itemValue) === false) {
+                            $error = sprintf(
+                                '%s is not a valid datetime string',
+                                $item
+                            );
+                            $errors[] = $error;
                             break;
                         }
-
+                        break;
                     default:
                         # code...
                         break;
