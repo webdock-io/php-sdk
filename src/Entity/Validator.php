@@ -28,6 +28,11 @@ trait Validator
         return ctype_alpha($input);
     }
 
+    public function isValidName(string $input)
+    {
+        return preg_match('/^[a-zA-Z0-9 \s]+$/', $input) ? true : false;
+    }
+
     protected function validate(array $src)
     {
         $rules = $this->rules();
@@ -43,22 +48,37 @@ trait Validator
                 continue;
             }
 
-            if (in_array('nullable', $rules[$item])) {
-                if (is_null($itemValue) || $itemValue === '') {
-                    continue;
-                }
-            }
-
             if (in_array('default', $rules[$item])) {
                 if (is_null($itemValue) || $itemValue === '') {
                     $itemValue = $rules[$item]['default'];
                 }
             }
 
+            if (in_array('nullable', $rules[$item])) {
+                if (is_null($itemValue) || $itemValue === '') {
+                    continue;
+                }
+            }
+
+            if (empty($itemValue)) {
+                $error = sprintf('%s cannot be empty or null', $item);
+                $errors[] = $error;
+                continue;
+            }
+
             foreach ($rules[$item] as $ruleName => $ruleValue) {
                 $rule = is_string($ruleName) ? $ruleName : $ruleValue;
 
                 switch ($rule) {
+                    case 'name':
+                        if (!$this->isValidName($itemValue)) {
+                            $error = sprintf(
+                                '%s must satisfy [a-zA-Z0-9 \s] rule',
+                                $item
+                            );
+                            $errors[] = $error;
+                            break;
+                        }
                     case 'int64':
                         if (!$this->isInt64($itemValue)) {
                             $error = sprintf('%s is not a valid int64', $item);
