@@ -3,6 +3,7 @@ namespace Webdock;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Webdock\Exception\WebdockException;
+use Webdock\Entity\BaseEntity;
 
 abstract class BaseApi implements ApiInterface
 {
@@ -31,8 +32,13 @@ abstract class BaseApi implements ApiInterface
         }
     }
 
-    protected function postCall($endpoint, $body)
+    protected function postCall($endpoint, BaseEntity $body)
     {
+        try {
+            $response = $this->client->request('POST', $endpoint, $body->toArray());
+        } catch (WebdockException $e) {
+            
+        }
     }
 
     protected function patchCall($endpoint)
