@@ -16,27 +16,15 @@ class BaseEntity implements EntityInterface
         }
     }
 
-    public function fromGuzzle(Response $response)
+    public static function normalize(Response $response, $isSingle = true)
     {
-        $this->attributes = $response->getBody();
-        $this->headers = $response->getHeaders();
-    }
-
-    public function fromArray(array $data)
-    {
-        if ($this->validate($data)) {
-            $this->attributes = $data;
-            return $this;
+        $data = json_decode($response->json(), true);
+        if ($isSingle == true) {
+            return new static($data);
         }
-    }
 
-    public function toArray(): array
-    {
-        return $this->attributes;
-    }
-
-    public function getHeaders(): array
-    {
-        return $this->headers;
+        return array_map(function ($i) {
+            return new static($i);
+        }, $data);
     }
 }

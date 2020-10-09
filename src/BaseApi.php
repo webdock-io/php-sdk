@@ -3,7 +3,7 @@ namespace Webdock;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Webdock\Exception\WebdockException;
-use Webdock\Entity\BaseEntity;
+use Webdock\Entity\EntityInterface;
 
 abstract class BaseApi implements ApiInterface
 {
@@ -20,32 +20,15 @@ abstract class BaseApi implements ApiInterface
         return $this->responseHeaders;
     }
 
-    protected function getCall($endpoint)
+    protected function execute($endpoint, $method, EntityInterface $model)
     {
-        try {
-            $request = $this->client->request('GET', $endpoint);
-        } catch (RequestException $e) {
-            throw new WebdockException($e->getMessage());
-        } finally {
-            $this->responseHeaders = $request->getHeaders();
-            return json_decode($request->getBody(), true);
-        }
-    }
+        $response = $this->client->request(
+            $method,
+            $endpoint,
+            $model->toArray()
+        );
 
-    protected function postCall($endpoint, BaseEntity $body)
-    {
-        try {
-            $response = $this->client->request('POST', $endpoint, $body->toArray());
-        } catch (WebdockException $e) {
-            
-        }
+        return $model::normalize($response);
     }
-
-    protected function patchCall($endpoint)
-    {
-    }
-
-    protected function deleteCall($endpoint, $body)
-    {
-    }
+    
 }
