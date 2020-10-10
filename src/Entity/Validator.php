@@ -1,6 +1,7 @@
 <?php
 namespace Webdock\Entity;
 use Webdock\Exception\EntityException;
+use DateTime;
 
 trait Validator
 {
@@ -44,7 +45,10 @@ trait Validator
         if (count($unlistedRules) > 0) {
             foreach ($unlistedRules as $unlistedKey => $unlisted) {
                 if (!in_array('nullable', $unlisted)) {
-                    $error = sprintf('`%s` parameter is required.', $unlistedKey);
+                    $error = sprintf(
+                        '`%s` parameter is required.',
+                        $unlistedKey
+                    );
                     $errors[] = $error;
                 }
             }
@@ -91,8 +95,8 @@ trait Validator
                                 $item
                             );
                             $errors[] = $error;
-                            break;
                         }
+                        break;
                     case 'int64':
                         if (!$this->isInt64($itemValue)) {
                             $error = sprintf('%s is not a valid int64', $item);

@@ -8,27 +8,20 @@ use Webdock\Entity\EntityInterface;
 abstract class BaseApi implements ApiInterface
 {
     protected $client;
-    protected $responseHeaders = [];
+    protected static $apiStats = null;
 
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
 
-    public function getHeaders()
+    public function getStats()
     {
-        return $this->responseHeaders;
+        return $self->apiStats;
     }
 
-    protected function execute($endpoint, $method, EntityInterface $model)
+    protected function execute($endpoint, $method, $params)
     {
-        $response = $this->client->request(
-            $method,
-            $endpoint,
-            $model->toArray()
-        );
-
-        return $model::normalize($response);
+        return $this->client->request($method, $endpoint, $params);
     }
-    
 }
