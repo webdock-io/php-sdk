@@ -1,5 +1,6 @@
 <?php
 namespace Webdock\Entity;
+use Webdock\Exception\EntityException;
 
 trait Validator
 {
@@ -38,6 +39,17 @@ trait Validator
         $rules = $this->rules();
         $errors = [];
 
+        $unlistedRules = array_diff_key($rules, $src);
+
+        if (count($unlistedRules) > 0) {
+            foreach ($unlistedRules as $unlistedKey => $unlisted) {
+                if (!in_array('nullable', $unlisted)) {
+                    $error = sprintf('`%s` parameter is required.', $unlistedKey);
+                    $errors[] = $error;
+                }
+            }
+        }
+
         foreach ($src as $item => $itemValue) {
             if (!key_exists($item, $rules)) {
                 $error = sprintf(
@@ -61,6 +73,8 @@ trait Validator
             }
 
             if (empty($itemValue)) {
+                echo 'trapped';
+                die();
                 $error = sprintf('%s cannot be empty or null', $item);
                 $errors[] = $error;
                 continue;
@@ -143,6 +157,7 @@ trait Validator
                             );
                             $errors[] = $error;
                         }
+                        break;
 
                     case 'maxLength':
                         if (strlen($itemValue) > $ruleValue) {
@@ -195,7 +210,7 @@ trait Validator
         }
 
         if (count($errors) > 0) {
-            $errorMessage = join('\n', $errors);
+            $errorMessage = join("\n", $errors);
             throw new EntityException($errorMessage);
         }
 
