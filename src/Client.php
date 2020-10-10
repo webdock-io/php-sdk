@@ -12,7 +12,7 @@ final class Client
     {
         $xClient = sprintf('webdock-php-sdk/%s', self::VERSION);
         $config = [
-            'base_uri' => 'https://api.webdock.io/v1',
+            'base_uri' => 'https://api.webdock.io/v1/',
             'headers' => [
                 'Authorization' => sprintf('Bearer %s', $token),
                 'Accept' => 'application/json',
