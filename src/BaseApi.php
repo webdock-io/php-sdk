@@ -1,36 +1,29 @@
-<?php 
+<?php
 namespace Webdock;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Webdock\Exception\WebdockException;
+use Webdock\Entity\EntityInterface;
+use Webdock\WebdockObject;
 
-abstract class BaseApi implements ApiInterface {
-    protected $client; 
+abstract class BaseApi implements ApiInterface
+{
+    protected $client;
+    protected static $apiStats = null;
 
-    public function __construct(ClientInterface $client) {
-        $this->client = $client; 
+    public function __construct(ClientInterface $client)
+    {
+        $this->client = $client;
     }
 
-    protected function getCall($endpoint) {
-        try {
-            $request = $this->client->request('GET', $endpoint);
-        } catch (RequestException $e) {
-            throw new WebdockException($e->getMessage());
-        } finally {
-            return json_decode($request->getBody(), true);
-        }
+    public function getStats()
+    {
+        return $self->apiStats;
     }
 
-    protected function postCall($endpoint, $body) {
-
+    protected function execute($endpoint, $method, $params)
+    {
+        $response = $this->client->request($method, $endpoint, $params);
+        return new WebdockObject($response);
     }
-
-    protected function patchCall($endpoint) {
-
-    }
-
-    protected function deleteCall($endpoint, $body) {
-
-    }
-
 }

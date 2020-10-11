@@ -1,40 +1,46 @@
 <?php
 namespace Webdock;
-use Webdock\Exception\WebdockException; 
+use Webdock\Exception\WebdockException;
 use GuzzleHttp\Client as GuzzleClient;
 
-final class Client {
-
-    const VERSION = '1.0.0';
+final class Client
+{
+    const VERSION = 'v1.0.0';
     private $client;
 
-    public function __construct($token, callable $handler = null) {
+    public function __construct($token, callable $handler = null)
+    {
+        $xClient = sprintf('webdock-php-sdk/%s', self::VERSION);
         $config = [
-            'base_uri' => 'https://api.webdock.io',
+            'base_uri' => 'https://api.webdock.io/v1/',
             'headers' => [
                 'Authorization' => sprintf('Bearer %s', $token),
-                'Accept' => 'application/json'             ]
+                'Accept' => 'application/json',
+                'X-Client' => $xClient,
+            ],
         ];
-        
+
         if (is_callable($handler)) {
             $config['handler'] = $handler;
         }
 
         $this->client = new GuzzleClient($config);
-
     }
 
-    public function __get($service) {
+    public function __get($service)
+    {
         $className = sprintf('\Webdock\Api\%s', ucfirst($service));
         if (!class_exists($className)) {
-            throw new WebdockException(sprintf('Class %s is not exists', $className));
+            throw new WebdockException(
+                sprintf('API %s is not exists', $className)
+            );
         }
 
         return new $className($this->client);
     }
 
-    public function ping() {
+    public function ping()
+    {
         return (new \Webdock\Api\Ping($this->client))->ping();
     }
-
 }

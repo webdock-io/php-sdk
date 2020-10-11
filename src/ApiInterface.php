@@ -1,6 +1,7 @@
 <?php
 namespace Webdock;
 
-interface ApiInterface {
-
+interface ApiInterface
+{
+  
 }

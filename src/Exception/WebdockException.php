@@ -1,7 +1,7 @@
 <?php
 namespace Webdock\Exception;
-use \RuntimeException; 
+use \RuntimeException;
 
-class WebdockException extends RuntimeException {
-    
+class WebdockException extends RuntimeException
+{
 }

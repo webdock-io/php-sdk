@@ -2,10 +2,10 @@
 namespace Webdock\Api;
 use Webdock\BaseApi;
 
-class Ping extends BaseApi
+class Location extends BaseApi
 {
-    protected $endpoint = 'ping';
-    public function ping()
+    protected $endpoint = 'locations';
+    public function list()
     {
         return $this->execute($this->endpoint, 'GET', []);
     }
