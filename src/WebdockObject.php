@@ -49,9 +49,31 @@ class WebdockObject implements ArrayAccess, Iterator
         return $this->headers;
     }
 
-    public function __invoke()
+    public function getApiStats()
+    {
+        return [
+            'X-RateLimit-Limit' => isset($this->headers['X-RateLimit-Limit'])
+                ? $this->headers['X-RateLimit-Limit'][0]
+                : null,
+            'X-RateLimit-Remaining' => isset(
+                $this->headers['X-RateLimit-Remaining']
+            )
+                ? $this->headers['X-RateLimit-Remaining'][0]
+                : null,
+            'X-RateLimit-Reset' => isset($this->headers['X-RateLimit-Reset'])
+                ? $this->headers['X-RateLimit-Reset'][0]
+                : null,
+        ];
+    }
+
+    public function toArray()
     {
         return $this->container;
+    }
+
+    public function __invoke()
+    {
+        return $this->toArray();
     }
 
     public function offsetSet($offset, $value)

@@ -1,11 +1,12 @@
 <?php
 namespace Webdock\Api;
-use Webdock\BaseApi; 
+use Webdock\BaseApi;
 
-class Ping extends BaseApi {
-
-    public function ping() {
-        return $this->getCall('/ping');
+class Ping extends BaseApi
+{
+    protected $endpoint = 'ping';
+    public function ping()
+    {
+        return $this->execute($this->endpoint, 'GET', []);
     }
-
 }

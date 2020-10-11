@@ -2,9 +2,9 @@
 namespace Webdock\Api;
 use Webdock\BaseApi;
 
-class Location extends BaseApi
+class Image extends BaseApi
 {
-    protected $endpoint = 'locations';
+    protected $endpoint = 'images';
     public function list()
     {
         return $this->execute($this->endpoint, 'GET', []);

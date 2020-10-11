@@ -4,7 +4,6 @@ use Webdock\BaseApi;
 use Webdock\Entity\ServerModel;
 use Webdock\Entity\ServerUpdateModel;
 use Webdock\Exception\WebdockException;
-use Webdock\WebdockObject;
 
 class Server extends BaseApi
 {
@@ -22,29 +21,25 @@ class Server extends BaseApi
         }
 
         $params = ['query' => ['status' => $status]];
-        $response = $this->execute($this->endpoint, 'GET', $params);
-        return new WebdockObject($response);
+        return $this->execute($this->endpoint, 'GET', $params);
     }
 
     public function create(array $params)
     {
         $model = new ServerModel($params);
         $params = ['form_params' => $model->toArray()];
-        $response = $this->execute($this->endpoint, 'POST', $params);
-        return new WebdockObject($response);
+        return $this->execute($this->endpoint, 'POST', $params);
     }
 
     public function get(string $slug)
     {
         $endpoint = sprintf('servers/%s', $slug);
-        $response = $this->execute($endpoint, 'GET', []);
-        return new WebdockObject($response);
+        return $this->execute($endpoint, 'GET', []);
     }
     public function delete(string $slug)
     {
         $endpoint = sprintf('servers/%s', $slug);
-        $response = $this->execute($endpoint, 'DELETE', []);
-        return new WebdockObject($response);
+        return $this->execute($endpoint, 'DELETE', []);
     }
 
     public function update(string $slug, array $params)
@@ -52,7 +47,6 @@ class Server extends BaseApi
         $endpoint = sprintf('servers/%s', $slug);
         $model = new ServerUpdateModel($params);
         $data = ['form_params' => $model->toArray()];
-        $response = $this->execute($endpoint, 'PATCH', $data);
-        return new WebdockObject($response);
+        return $this->execute($endpoint, 'PATCH', $data);
     }
 }

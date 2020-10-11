@@ -4,6 +4,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Webdock\Exception\WebdockException;
 use Webdock\Entity\EntityInterface;
+use Webdock\WebdockObject;
 
 abstract class BaseApi implements ApiInterface
 {
@@ -22,6 +23,7 @@ abstract class BaseApi implements ApiInterface
 
     protected function execute($endpoint, $method, $params)
     {
-        return $this->client->request($method, $endpoint, $params);
+        $response = $this->client->request($method, $endpoint, $params);
+        return new WebdockObject($response);
     }
 }

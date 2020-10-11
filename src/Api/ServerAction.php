@@ -2,7 +2,11 @@
 namespace Webdock\Api;
 use Webdock\BaseApi;
 use Webdock\Exception\WebdockException;
-use Webdock\WebdockObject;
+use Webdock\Entity\ServerActionReinstallModel;
+use Webdock\Entity\ServerActionSnapshotModel;
+use Webdock\Entity\ServerActionRestoreSnapshotModel;
+use Webdock\Entity\ServerActionResizeModel;
+
 class ServerAction extends BaseApi
 {
     protected $endpoint = 'servers/%s/actions/%s';
@@ -10,51 +14,67 @@ class ServerAction extends BaseApi
     public function start(string $slug)
     {
         $endpoint = sprintf($this->endpoint, $slug, 'start');
-        $response = $this->execute($endpoint, 'POST', []);
-        return new WebdockObject($response);
+        return $this->execute($endpoint, 'POST', []);
     }
 
-    public function actionStop(string $slug)
+    public function stop(string $slug)
     {
+        $endpoint = sprintf($this->endpoint, $slug, 'stop');
+        return $this->execute($endpoint, 'POST', []);
     }
 
-    public function actionReboot(string $slug)
+    public function reboot(string $slug)
     {
+        $endpoint = sprintf($this->endpoint, $slug, 'reboot');
+        return $this->execute($endpoint, 'POST', []);
     }
 
-    public function actionSuspend(string $slug)
+    public function suspend(string $slug)
     {
+        $endpoint = sprintf($this->endpoint, $slug, 'suspend');
+        return $this->execute($endpoint, 'POST', []);
     }
 
-    public function actionReinstall(string $slug)
+    public function reinstall(string $slug, string $imageSlug)
     {
+        $model = new ServerActionReinstallModel(['imageSlug' => $imageSlug]);
+        $params = ['form_params' => $model->toArray()];
+        $endpoint = sprintf($this->endpoint, $slug, 'reinstall');
+        return $this->execute($endpoint, 'POST', $params);
     }
 
-    public function actionSnapshot(string $slug)
+    public function snapshot(string $slug, string $name)
     {
+        $model = new ServerActionSnapshotModel(['name' => $name]);
+        $params = ['form_params' => $model->toArray()];
+        $endpoint = sprintf($this->endpoint, $slug, 'snapshot');
+        return $this->execute($endpoint, 'POST', $params);
     }
 
-    public function actionRestore(string $slug)
+    public function restore(string $slug, int $snapshotId)
     {
+        $model = new ServerActionRestoreSnapshotModel([
+            'snapshotId' => $snapshotId,
+        ]);
+        $params = ['form_params' => $model->toArray()];
+        $endpoint = sprintf($this->endpoint, $slug, 'restore');
+
+        return $this->execute($endpoint, 'POST', $params);
     }
 
-    public function actionResize(string $slug, $dryRun = false)
+    public function resize(string $slug, string $profileSlug)
     {
+        $model = new ServerActionResizeModel(['profileSlug' => $profileSlug]);
+        $params = ['form_params' => $model->toArray()];
+        $endpoint = sprintf($this->endpoint, $slug, 'resize');
+        return $this->execute($endpoint, 'POST', $params);
     }
 
-    public function shelluserList(string $slug)
+    public function dryRunResize(string $slug, string $profileSlug)
     {
-    }
-
-    public function createShellUser(string $slug)
-    {
-    }
-
-    public function deleteShellUser(string $slug, integer $shellUserId)
-    {
-    }
-
-    public function updateShellUser(string $slug, integer $shellUserId)
-    {
+        $model = new ServerActionResizeModel(['profileSlug' => $profileSlug]);
+        $params = ['form_params' => $model->toArray()];
+        $endpoint = sprintf($this->endpoint, $slug, 'resize/dryrun');
+        return $this->execute($endpoint, 'POST', $params);
     }
 }

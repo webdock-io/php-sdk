@@ -103,6 +103,15 @@ trait Validator
                             $errors[] = $error;
                         }
                         break;
+                    case 'string':
+                        if (!is_string($itemValue)) {
+                            $error = sprintf(
+                                '%s must be a string variable',
+                                $item
+                            );
+                            $errors[] = $error;
+                        }
+                        break;
                     case 'boolean':
                         if (!is_bool($itemValue)) {
                             $error = sprintf(
