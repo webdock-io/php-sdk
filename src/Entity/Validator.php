@@ -77,8 +77,6 @@ trait Validator
             }
 
             if (empty($itemValue)) {
-                echo 'trapped';
-                die();
                 $error = sprintf('%s cannot be empty or null', $item);
                 $errors[] = $error;
                 continue;
