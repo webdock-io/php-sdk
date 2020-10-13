@@ -1,6 +1,6 @@
 <?php
 namespace Webdock\Entity;
-use Webdock\Exception\EntityException;
+use Webdock\Exception\WebdockException;
 use GuzzleHttp\Psr7\Response;
 
 class BaseEntity implements EntityInterface
@@ -10,9 +10,10 @@ class BaseEntity implements EntityInterface
 
     public function __construct(array $data = null)
     {
-        if (is_array($data)) {
-            $this->fromArray($data);
+        if (!is_array($data)) {
+            throw new WebdockException('Parameters must be array');
         }
+        $this->fromArray($data);
     }
 
     public function toArray()
