@@ -6,7 +6,7 @@ class AccountScriptCreateModel extends BaseEntity
     public function rules(): array
     {
         return [
-            'name' => ['name'],
+            'name' => ['string'],
             'filename' => ['string'],
             'content' => ['string'],
         ];

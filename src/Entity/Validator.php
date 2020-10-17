@@ -17,7 +17,7 @@ trait Validator
 
     public function isInt64($input)
     {
-        return ctype_digit($input);
+        return ctype_digit((string) $input);
     }
 
     public function isAlphaNum(string $input)
@@ -205,6 +205,24 @@ trait Validator
                             $error = sprintf(
                                 '%s is not a valid shell password',
                                 $itemValue
+                            );
+                            $errors[] = $error;
+                        }
+                        break;
+                    case 'arrayOfInt':
+                        if (!is_array($itemValue)) {
+                            $error = sprintf('%s must be array.', $item);
+                            $errors[] = $error;
+                            break;
+                        }
+                        $intValues = array_map(function ($val) {
+                            return $this->isInt64($val);
+                        }, $itemValue);
+
+                        if (in_array(false, $intValues)) {
+                            $error = sprintf(
+                                '%s value of array must be integer',
+                                $item
                             );
                             $errors[] = $error;
                         }

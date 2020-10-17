@@ -6,7 +6,7 @@ class PublicKeyCreateModel extends BaseEntity
     public function rules(): array
     {
         return [
-            'name' => ['name'],
+            'name' => ['string'],
             'publicKey' => ['string'],
         ];
     }
