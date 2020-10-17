@@ -32,7 +32,7 @@ final class Client
         $className = sprintf('\Webdock\Api\%s', ucfirst($service));
         if (!class_exists($className)) {
             throw new WebdockException(
-                sprintf('API %s is not exists', $className)
+                sprintf('API Method %s does not exist', $className)
             );
         }
 

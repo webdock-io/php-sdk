@@ -8,7 +8,6 @@ class ServerUpdateModel extends BaseEntity
         return [
             'name' => [
                 'name',
-                'alphanum',
                 'maxLength' => 255,
                 'minLength' => 4,
             ],

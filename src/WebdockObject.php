@@ -66,6 +66,13 @@ class WebdockObject implements ArrayAccess, Iterator
         ];
     }
 
+    public function getCallbackID()
+    {
+        return isset($this->headers['X-Callback-ID'])
+            ? $this->headers['X-Callback-ID'][0]
+            : null;
+    }
+
     public function toArray()
     {
         return $this->container;
