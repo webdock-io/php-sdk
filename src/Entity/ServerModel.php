@@ -6,7 +6,7 @@ class ServerModel extends BaseEntity
     public function rules(): array
     {
         return [
-            'name' => ['name','name', 'maxLength' => 255, 'minLength' => 4],
+            'name' => ['name', 'maxLength' => 255, 'minLength' => 4],
             'slug' => ['name', 'maxLength' => 255, 'minLength' => 4],
             'profileSlug' => ['maxLength' => 255, 'minLength' => 4],
             'locationId' => ['maxLength' => 255, 'minLength' => 1],
