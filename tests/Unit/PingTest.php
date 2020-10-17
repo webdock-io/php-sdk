@@ -18,15 +18,16 @@ class PingTest extends TestCase {
             new Response(200, [], json_encode($serverResponse))
         ]);
         $handler = HandlerStack::create($mock);
-        $client = new WebdockClient('somerandomtoken', $handler);
+        $appName = 'MyApplication/1.0';
+        $client = new WebdockClient('somerandomtoken', $appName, $handler);
 
-        $this->assertSame($serverResponse, $client->ping());
+        $this->assertSame($serverResponse, $client->ping()->toArray());
     }
 
     public function pingResponse()
     {
         return [
-            [['hello'=> 'world']]
+            [['webdock'=> 'rocks']]
         ];
     }
     
