@@ -6,13 +6,13 @@ class ServerSnapshot extends BaseApi
 {
     protected $endpoint = 'servers/%s/snapshots';
 
-    public function list(string $serverSlug)
+    public function list($serverSlug)
     {
         $endpoint = sprintf($this->endpoint, $serverSlug);
         return $this->execute($endpoint, 'GET', []);
     }
 
-    public function get(string $serverSlug, int $snapshotId)
+    public function get($serverSlug, $snapshotId)
     {
         $endpoint = implode('/', [
             sprintf($this->endpoint, $serverSlug),
@@ -21,7 +21,7 @@ class ServerSnapshot extends BaseApi
         return $this->execute($endpoint, 'GET', []);
     }
 
-    public function delete(string $serverSlug, int $snapshotId)
+    public function delete($serverSlug, $snapshotId)
     {
         $endpoint = implode('/', [
             sprintf($this->endpoint, $serverSlug),

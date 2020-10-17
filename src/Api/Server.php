@@ -31,18 +31,18 @@ class Server extends BaseApi
         return $this->execute($this->endpoint, 'POST', $params);
     }
 
-    public function get(string $slug)
+    public function get($slug)
     {
         $endpoint = sprintf('servers/%s', $slug);
         return $this->execute($endpoint, 'GET', []);
     }
-    public function delete(string $slug)
+    public function delete($slug)
     {
         $endpoint = sprintf('servers/%s', $slug);
         return $this->execute($endpoint, 'DELETE', []);
     }
 
-    public function update(string $slug, array $params)
+    public function update($slug, array $params)
     {
         $endpoint = sprintf('servers/%s', $slug);
         $model = new ServerUpdateModel($params);

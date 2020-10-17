@@ -66,8 +66,6 @@ class WebdockHeaderObject implements ArrayAccess, Iterator
 
     public function offsetGet($offset)
     {
-        return isset($this->headers[$offset])
-            ? $this->headers[$offset]
-            : null;
+        return isset($this->headers[$offset]) ? $this->headers[$offset] : null;
     }
 }

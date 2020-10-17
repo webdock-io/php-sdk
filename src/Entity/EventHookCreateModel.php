@@ -3,7 +3,7 @@ namespace Webdock\Entity;
 
 class EventHookCreateModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
             'callbackUrl' => ['string'],

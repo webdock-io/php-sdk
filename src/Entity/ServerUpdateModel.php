@@ -3,7 +3,7 @@ namespace Webdock\Entity;
 
 class ServerUpdateModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
             'name' => ['string'],

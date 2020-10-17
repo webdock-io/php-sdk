@@ -3,7 +3,7 @@ namespace Webdock\Entity;
 
 class EventPollQueryModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
             'callbackId' => ['string', 'nullable'],

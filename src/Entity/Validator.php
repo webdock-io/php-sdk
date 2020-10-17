@@ -5,12 +5,12 @@ use DateTime;
 
 trait Validator
 {
-    public function isIPv4(string $input)
+    public function isIPv4($input)
     {
         return filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     }
 
-    public function isIPv6(string $input)
+    public function isIPv6($input)
     {
         return filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
     }
@@ -20,17 +20,17 @@ trait Validator
         return ctype_digit((string) $input);
     }
 
-    public function isAlphaNum(string $input)
+    public function isAlphaNum($input)
     {
         return ctype_alnum($input);
     }
 
-    public function isAlpha(string $input)
+    public function isAlpha($input)
     {
         return ctype_alpha($input);
     }
 
-    public function isValidName(string $input)
+    public function isValidName($input)
     {
         return preg_match('/^[a-zA-Z0-9 \s]+$/', $input) ? true : false;
     }

@@ -21,19 +21,19 @@ class AccountScript extends BaseApi
         return $this->execute($this->endpoint, 'POST', $params);
     }
 
-    public function get(int $scriptId)
+    public function get($scriptId)
     {
         $endpoint = sprintf($this->endpointScriptId, $scriptId);
         return $this->execute($endpoint, 'GET', []);
     }
 
-    public function delete(int $scriptId)
+    public function delete($scriptId)
     {
         $endpoint = sprintf($this->endpointScriptId, $scriptId);
         return $this->execute($endpoint, 'DELETE', []);
     }
 
-    public function update(int $scriptId, array $params)
+    public function update($scriptId, array $params)
     {
         $model = new AccountScriptUpdateModel($params);
         $endpoint = sprintf($this->endpointScriptId, $scriptId);
