@@ -8,7 +8,7 @@ final class Client
     const VERSION = 'v1.0.0';
     private $client;
 
-    public function __construct($token, callable $handler = null)
+    public function __construct(string $token, string $appName = '', callable $handler = null)
     {
         $xClient = sprintf('webdock-php-sdk/%s', self::VERSION);
         $config = [
@@ -17,6 +17,7 @@ final class Client
                 'Authorization' => sprintf('Bearer %s', $token),
                 'Accept' => 'application/json',
                 'X-Client' => $xClient,
+                'X-Application' => $appName,
             ],
         ];
 
