@@ -8,8 +8,11 @@ final class Client
     const VERSION = 'v1.0.0';
     private $client;
 
-    public function __construct(string $token, string $appName = '', callable $handler = null)
-    {
+    public function __construct(
+        string $token,
+        string $appName = '',
+        callable $handler = null
+    ) {
         $xClient = sprintf('webdock-php-sdk/%s', self::VERSION);
         $config = [
             'base_uri' => 'https://api.webdock.io/v1/',
