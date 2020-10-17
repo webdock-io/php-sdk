@@ -192,7 +192,7 @@ trait Validator
                             $errors[] = $error;
                             break;
                         }
-                        $stingValues = array_map(function ($value) {
+                        $stringValues = array_map(function ($value) {
                             return is_string($value);
                         }, $itemValue);
                         if (in_array(false, $stringValues)) {
