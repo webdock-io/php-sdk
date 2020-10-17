@@ -1,29 +1,9 @@
-<phpunit
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/6.3/phpunit.xsd"
-         backupGlobals="true"
-         backupStaticAttributes="false"
-         cacheTokens="false"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         forceCoversAnnotation="false"
-         processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         stopOnIncomplete="false"
-         stopOnSkipped="false"
-         stopOnRisky="false"
-         timeoutForSmallTests="1"
-         timeoutForMediumTests="10"
-         timeoutForLargeTests="60"
-         testdox="true"
-         verbose="true">
-         <testsuites>
-            <testsuite name="My Test Suite">
-                <directory suffix="Test.php">tests/</directory>
-            </testsuite>
-        </testsuites>
-  
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="true" backupStaticAttributes="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" forceCoversAnnotation="false" processIsolation="false" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" stopOnRisky="false" timeoutForSmallTests="1" timeoutForMediumTests="10" timeoutForLargeTests="60" testdox="true" verbose="true">
+  <coverage/>
+  <testsuites>
+    <testsuite name="Webdock Test Suite">
+      <directory suffix="Test.php">tests/</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
