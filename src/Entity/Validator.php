@@ -189,6 +189,26 @@ trait Validator
                             $errors[] = $error;
                         }
                         break;
+                    case 'shell_username':
+                        $val = str_replace(['_'], '', $itemValue);
+                        if (!$this->isAlphaNum($val)) {
+                            $error = sprintf(
+                                '%s is not a valid shell username',
+                                $itemValue
+                            );
+                            $errors[] = $error;
+                        }
+                        break;
+                    case 'shell_password':
+                        $val = str_replace(['-', '_'], '', $itemValue);
+                        if (!$this->isAlphaNum($val)) {
+                            $error = sprintf(
+                                '%s is not a valid shell password',
+                                $itemValue
+                            );
+                            $errors[] = $error;
+                        }
+                        break;
                     case 'arrayOfString':
                         if (!is_array($itemValue)) {
                             $error = sprintf('%s must be array.', $item);
