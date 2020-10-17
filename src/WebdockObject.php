@@ -8,14 +8,13 @@ class WebdockObject implements ArrayAccess, Iterator
 {
     private $headers = [];
     private $container = null;
+    private $response = null;
     private $position = 0;
 
     public function __construct(ResponseInterface $response)
     {
-        $this->container = json_decode(
-            $response->getBody()->getContents(),
-            true
-        );
+        $this->response = json_decode($response->getBody()->getContents());
+        $this->container = json_decode(json_encode($this->response), true);
         $this->headers = $response->getHeaders();
     }
 
@@ -76,6 +75,11 @@ class WebdockObject implements ArrayAccess, Iterator
     public function toArray()
     {
         return $this->container;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
     }
 
     public function __invoke()
