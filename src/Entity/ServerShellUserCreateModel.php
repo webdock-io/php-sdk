@@ -9,7 +9,7 @@ class ServerShellUserCreateModel extends BaseEntity
             'password' => ['shell_password'],
             'group' => ['string', 'default' => 'sudo'],
             'shell' => ['string', 'default' => '/bin/bash'],
-            'publicKeys' => ['arrayOfString'],
+            'publicKeys' => ['arrayOfInt'],
         ];
     }
 }
