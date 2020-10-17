@@ -44,6 +44,11 @@ trait Validator
 
         if (count($unlistedRules) > 0) {
             foreach ($unlistedRules as $unlistedKey => $unlisted) {
+                if (array_key_exists('default', $unlisted)) {
+                    $src[$unlistedKey] = $unlisted['default'];
+                    continue;
+                }
+
                 if (!in_array('nullable', $unlisted)) {
                     $error = sprintf(
                         '`%s` parameter is required.',
@@ -76,12 +81,6 @@ trait Validator
                 }
             }
 
-            if (empty($itemValue)) {
-                $error = sprintf('%s cannot be empty or null', $item);
-                $errors[] = $error;
-                continue;
-            }
-
             foreach ($rules[$item] as $ruleName => $ruleValue) {
                 $rule = is_string($ruleName) ? $ruleName : $ruleValue;
 
@@ -97,7 +96,11 @@ trait Validator
                         break;
                     case 'int64':
                         if (!$this->isInt64($itemValue)) {
-                            $error = sprintf('%s is not a valid int64', $item);
+                            $error = sprintf(
+                                '%s is not a valid int64, `%s` value given.',
+                                $item,
+                                $itemValue
+                            );
                             $errors[] = $error;
                         }
                         break;
