@@ -3,20 +3,15 @@ namespace Webdock\Entity;
 
 class ServerModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
-            'name' => ['name','alphanum', 'maxLength' => 255, 'minLength' => 4],
-            'slug' => ['alphanum', 'maxLength' => 255, 'minLength' => 4],
-            'profileSlug' => ['maxLength' => 255, 'minLength' => 4],
-            'locationId' => ['maxLength' => 255, 'minLength' => 1],
-            'imageSlug' => ['maxLength' => 255, 'minLength' => 1],
-            'snapshotId' => [
-                'alphanum',
-                'nullable',
-                'maxLength' => 255,
-                'minLength' => 1,
-            ],
+            'name' => ['string'],
+            'slug' => ['string'],
+            'profileSlug' => ['string'],
+            'locationId' => ['string'],
+            'imageSlug' => ['string'],
+            'snapshotId' => ['string', 'nullable'],
         ];
     }
 }

@@ -19,13 +19,13 @@ class EventHook extends BaseApi
         return $this->execute($this->endpoint, 'POST', $params);
     }
 
-    public function get(int $hookId)
+    public function get($hookId)
     {
         $endpoint = implode('/', [$this->endpoint, $hookId]);
         return $this->execute($endpoint, 'GET', []);
     }
 
-    public function delete(int $hookId)
+    public function delete($hookId)
     {
         $endpoint = implode('/', [$this->endpoint, $hookId]);
         return $this->execute($endpoint, 'DELETE', []);

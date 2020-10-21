@@ -18,7 +18,7 @@ class PublicKey extends BaseApi
         return $this->execute($this->endpoint, 'POST', $params);
     }
 
-    public function delete(int $publicKeyId)
+    public function delete($publicKeyId)
     {
         $endpoint = implode('/', [$this->endpoint, $publicKeyId]);
         return $this->execute($endpoint, 'DELETE', []);

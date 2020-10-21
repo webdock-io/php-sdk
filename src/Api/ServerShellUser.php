@@ -8,13 +8,13 @@ class ServerShellUser extends BaseApi
 {
     protected $endpoint = 'servers/%s/shellUsers';
 
-    public function list(string $serverSlug)
+    public function list($serverSlug)
     {
         $endpoint = sprintf($this->endpoint, $serverSlug);
         return $this->execute($endpoint, 'GET', []);
     }
 
-    public function create(string $serverSlug, array $params)
+    public function create($serverSlug, array $params)
     {
         $model = new ServerShellUserCreateModel($params);
         $params = ['form_params' => $model->toArray()];
@@ -22,7 +22,7 @@ class ServerShellUser extends BaseApi
         return $this->execute($endpoint, 'POST', $params);
     }
 
-    public function delete(string $serverSlug, int $shellUserId)
+    public function delete($serverSlug, $shellUserId)
     {
         $endpoint = implode('/', [
             sprintf($this->endpoint, $serverSlug),
@@ -31,7 +31,7 @@ class ServerShellUser extends BaseApi
         return $this->execute($endpoint, 'DELETE', []);
     }
 
-    public function update(string $serverSlug, int $shellUserId, array $params)
+    public function update($serverSlug, $shellUserId, array $params)
     {
         $model = new ServerShellUserUpdateModel($params);
         $params = ['form_params' => $model->toArray()];

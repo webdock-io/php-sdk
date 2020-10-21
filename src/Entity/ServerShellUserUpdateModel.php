@@ -2,10 +2,10 @@
 namespace Webdock\Entity;
 class ServerShellUserUpdateModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
-            'publicKeys' => ['arrayOfString'],
+            'publicKeys' => ['arrayOfInt'],
         ];
     }
 }

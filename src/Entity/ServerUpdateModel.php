@@ -3,17 +3,12 @@ namespace Webdock\Entity;
 
 class ServerUpdateModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
-            'name' => [
-                'name',
-                'alphanum',
-                'maxLength' => 255,
-                'minLength' => 4,
-            ],
-            'description' => ['name', 'maxLength' => 255, 'minLength' => 4],
-            'notes' => ['name', 'maxLength' => 255, 'minLength' => 4],
+            'name' => ['string'],
+            'description' => ['string'],
+            'notes' => ['string'],
             'nextActionDate' => ['datetime'],
         ];
     }

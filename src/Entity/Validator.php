@@ -5,32 +5,32 @@ use DateTime;
 
 trait Validator
 {
-    public function isIPv4(string $input)
+    public function isIPv4($input)
     {
         return filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     }
 
-    public function isIPv6(string $input)
+    public function isIPv6($input)
     {
         return filter_var($input, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
     }
 
     public function isInt64($input)
     {
-        return ctype_digit($input);
+        return ctype_digit((string) $input);
     }
 
-    public function isAlphaNum(string $input)
+    public function isAlphaNum($input)
     {
         return ctype_alnum($input);
     }
 
-    public function isAlpha(string $input)
+    public function isAlpha($input)
     {
         return ctype_alpha($input);
     }
 
-    public function isValidName(string $input)
+    public function isValidName($input)
     {
         return preg_match('/^[a-zA-Z0-9 \s]+$/', $input) ? true : false;
     }
@@ -44,6 +44,11 @@ trait Validator
 
         if (count($unlistedRules) > 0) {
             foreach ($unlistedRules as $unlistedKey => $unlisted) {
+                if (array_key_exists('default', $unlisted)) {
+                    $src[$unlistedKey] = $unlisted['default'];
+                    continue;
+                }
+
                 if (!in_array('nullable', $unlisted)) {
                     $error = sprintf(
                         '`%s` parameter is required.',
@@ -76,14 +81,6 @@ trait Validator
                 }
             }
 
-            if (empty($itemValue)) {
-                echo 'trapped';
-                die();
-                $error = sprintf('%s cannot be empty or null', $item);
-                $errors[] = $error;
-                continue;
-            }
-
             foreach ($rules[$item] as $ruleName => $ruleValue) {
                 $rule = is_string($ruleName) ? $ruleName : $ruleValue;
 
@@ -99,7 +96,11 @@ trait Validator
                         break;
                     case 'int64':
                         if (!$this->isInt64($itemValue)) {
-                            $error = sprintf('%s is not a valid int64', $item);
+                            $error = sprintf(
+                                '%s is not a valid int64, `%s` value given.',
+                                $item,
+                                $itemValue
+                            );
                             $errors[] = $error;
                         }
                         break;
@@ -188,13 +189,51 @@ trait Validator
                             $errors[] = $error;
                         }
                         break;
+                    case 'shell_username':
+                        $val = str_replace(['_'], '', $itemValue);
+                        if (!$this->isAlphaNum($val)) {
+                            $error = sprintf(
+                                '%s is not a valid shell username',
+                                $itemValue
+                            );
+                            $errors[] = $error;
+                        }
+                        break;
+                    case 'shell_password':
+                        $val = str_replace(['-', '_'], '', $itemValue);
+                        if (!$this->isAlphaNum($val)) {
+                            $error = sprintf(
+                                '%s is not a valid shell password',
+                                $itemValue
+                            );
+                            $errors[] = $error;
+                        }
+                        break;
+                    case 'arrayOfInt':
+                        if (!is_array($itemValue)) {
+                            $error = sprintf('%s must be array.', $item);
+                            $errors[] = $error;
+                            break;
+                        }
+                        $intValues = array_map(function ($val) {
+                            return $this->isInt64($val);
+                        }, $itemValue);
+
+                        if (in_array(false, $intValues)) {
+                            $error = sprintf(
+                                '%s value of array must be integer',
+                                $item
+                            );
+                            $errors[] = $error;
+                        }
+                        break;
                     case 'arrayOfString':
                         if (!is_array($itemValue)) {
                             $error = sprintf('%s must be array.', $item);
                             $errors[] = $error;
                             break;
                         }
-                        $stingValues = array_map(function ($value) {
+                        $stringValues = array_map(function ($value) {
                             return is_string($value);
                         }, $itemValue);
                         if (in_array(false, $stringValues)) {

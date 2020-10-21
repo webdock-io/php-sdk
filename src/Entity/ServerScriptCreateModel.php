@@ -3,7 +3,7 @@ namespace Webdock\Entity;
 
 class ServerScriptCreateModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
             'scriptId' => ['int64'],

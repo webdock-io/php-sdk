@@ -3,10 +3,10 @@ namespace Webdock\Entity;
 
 class AccountScriptUpdateModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
-            'name' => ['alphanum'],
+            'name' => ['string'],
             'filename' => ['string'],
             'content' => ['string'],
         ];

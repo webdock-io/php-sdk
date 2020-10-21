@@ -6,17 +6,21 @@ use Iterator;
 
 class WebdockObject implements ArrayAccess, Iterator
 {
-    private $headers = [];
+    private $headers = null;
     private $container = null;
+    private $response = null;
     private $position = 0;
 
     public function __construct(ResponseInterface $response)
     {
-        $this->container = json_decode(
-            $response->getBody()->getContents(),
-            true
-        );
-        $this->headers = $response->getHeaders();
+        $this->response = json_decode($response->getBody()->getContents());
+        $this->container = json_decode(json_encode($this->response), true);
+        $this->headers = new WebdockHeaderObject($response->getHeaders());
+    }
+
+    public function __get($name)
+    {
+        return isset($this->container[$name]) ? $this->container[$name] : null;
     }
 
     public function current()
@@ -66,9 +70,21 @@ class WebdockObject implements ArrayAccess, Iterator
         ];
     }
 
+    public function getCallbackID()
+    {
+        return isset($this->headers['X-Callback-ID'])
+            ? $this->headers['X-Callback-ID'][0]
+            : null;
+    }
+
     public function toArray()
     {
         return $this->container;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
     }
 
     public function __invoke()

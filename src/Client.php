@@ -8,7 +8,7 @@ final class Client
     const VERSION = 'v1.0.0';
     private $client;
 
-    public function __construct($token, callable $handler = null)
+    public function __construct($token, $appName = '', callable $handler = null)
     {
         $xClient = sprintf('webdock-php-sdk/%s', self::VERSION);
         $config = [
@@ -17,6 +17,7 @@ final class Client
                 'Authorization' => sprintf('Bearer %s', $token),
                 'Accept' => 'application/json',
                 'X-Client' => $xClient,
+                'X-Application' => $appName,
             ],
         ];
 
@@ -32,7 +33,7 @@ final class Client
         $className = sprintf('\Webdock\Api\%s', ucfirst($service));
         if (!class_exists($className)) {
             throw new WebdockException(
-                sprintf('API %s is not exists', $className)
+                sprintf('API Method %s does not exist', $className)
             );
         }
 

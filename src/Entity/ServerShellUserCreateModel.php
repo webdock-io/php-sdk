@@ -2,14 +2,14 @@
 namespace Webdock\Entity;
 class ServerShellUserCreateModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
-            'username' => ['string', 'alphanum'],
+            'username' => ['string'],
             'password' => ['string'],
             'group' => ['string', 'default' => 'sudo'],
             'shell' => ['string', 'default' => '/bin/bash'],
-            'publicKeys' => ['arrayOfString'],
+            'publicKeys' => ['arrayOfInt'],
         ];
     }
 }

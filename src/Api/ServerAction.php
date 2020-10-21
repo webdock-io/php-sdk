@@ -11,31 +11,31 @@ class ServerAction extends BaseApi
 {
     protected $endpoint = 'servers/%s/actions/%s';
 
-    public function start(string $serverSlug)
+    public function start($serverSlug)
     {
         $endpoint = sprintf($this->endpoint, $serverSlug, 'start');
         return $this->execute($endpoint, 'POST', []);
     }
 
-    public function stop(string $serverSlug)
+    public function stop($serverSlug)
     {
         $endpoint = sprintf($this->endpoint, $serverSlug, 'stop');
         return $this->execute($endpoint, 'POST', []);
     }
 
-    public function reboot(string $serverSlug)
+    public function reboot($serverSlug)
     {
         $endpoint = sprintf($this->endpoint, $serverSlug, 'reboot');
         return $this->execute($endpoint, 'POST', []);
     }
 
-    public function suspend(string $serverSlug)
+    public function suspend($serverSlug)
     {
         $endpoint = sprintf($this->endpoint, $serverSlug, 'suspend');
         return $this->execute($endpoint, 'POST', []);
     }
 
-    public function reinstall(string $serverSlug, string $imageSlug)
+    public function reinstall($serverSlug, $imageSlug)
     {
         $model = new ServerActionReinstallModel(['imageSlug' => $imageSlug]);
         $params = ['form_params' => $model->toArray()];
@@ -43,7 +43,7 @@ class ServerAction extends BaseApi
         return $this->execute($endpoint, 'POST', $params);
     }
 
-    public function snapshot(string $serverSlug, string $name)
+    public function snapshot($serverSlug, $name)
     {
         $model = new ServerActionSnapshotModel(['name' => $name]);
         $params = ['form_params' => $model->toArray()];
@@ -51,7 +51,7 @@ class ServerAction extends BaseApi
         return $this->execute($endpoint, 'POST', $params);
     }
 
-    public function restore(string $serverSlug, int $snapshotId)
+    public function restore($serverSlug, $snapshotId)
     {
         $model = new ServerActionRestoreSnapshotModel([
             'snapshotId' => $snapshotId,
@@ -62,7 +62,7 @@ class ServerAction extends BaseApi
         return $this->execute($endpoint, 'POST', $params);
     }
 
-    public function resize(string $serverSlug, string $profileSlug)
+    public function resize($serverSlug, $profileSlug)
     {
         $model = new ServerActionResizeModel(['profileSlug' => $profileSlug]);
         $params = ['form_params' => $model->toArray()];
@@ -70,7 +70,7 @@ class ServerAction extends BaseApi
         return $this->execute($endpoint, 'POST', $params);
     }
 
-    public function dryRunResize(string $serverSlug, string $profileSlug)
+    public function dryRunResize($serverSlug, $profileSlug)
     {
         $model = new ServerActionResizeModel(['profileSlug' => $profileSlug]);
         $params = ['form_params' => $model->toArray()];

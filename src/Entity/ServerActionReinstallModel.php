@@ -3,7 +3,7 @@ namespace Webdock\Entity;
 
 class ServerActionReinstallModel extends BaseEntity
 {
-    public function rules(): array
+    public function rules()
     {
         return [
             'imageSlug' => ['string'],

@@ -2,28 +2,35 @@
 namespace Webdock;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 use Webdock\Exception\WebdockException;
-use Webdock\Entity\EntityInterface;
 use Webdock\WebdockObject;
 
 abstract class BaseApi implements ApiInterface
 {
     protected $client;
-    protected static $apiStats = null;
 
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
 
-    public function getStats()
-    {
-        return $self->apiStats;
-    }
-
     protected function execute($endpoint, $method, $params)
     {
-        $response = $this->client->request($method, $endpoint, $params);
+        try {
+            $response = $this->client->request($method, $endpoint, $params);
+        } catch (RequestException $e) {
+            $errors = [];
+            $errors[] = sprintf(
+                'Error %s',
+                $e->getCode()
+            );
+            if ($e->hasResponse()) {
+                $errors[] = $e->getResponse()->getBody()->getContents();
+            }
+            $error = implode("\n", $errors);
+            throw new WebdockException($error, $e->getCode());
+        }
         return new WebdockObject($response);
     }
 }
