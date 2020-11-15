@@ -1,27 +1,45 @@
 <?php
-namespace webdock;
+namespace Webdock;
+use IteratorAggregate;
 
-class WebdockCollection implements \IteratorAggregate
+class WebdockCollection implements IteratorAggregate
 {
-    private $items = [];
+    protected $items = [];
 
-    public function __construction($items = [])
+    public function __construct(array $items)
     {
-        $this->items = $items;
+        foreach ($items as $item) {
+            $this->addItem(new WebdockObject($item));
+        }
     }
 
-    public function getItems()
+    public function getItem($position)
     {
-        return $this->items;
+        if (isset($this->items[$position])) {
+            return $this->items[$position];
+        }
+        return null;
     }
 
-    public function addItem($item)
+    public function count()
+    {
+        return count($this->items);
+    }
+
+    public function addItem(WebdockObject $item)
     {
         $this->items[] = $item;
     }
 
+    public function toArray()
+    {
+        return array_map(function ($item) {
+            return $item->toArray();
+        }, $this->items);
+    }
+
     public function getIterator()
     {
-        return new \ArrayIterator($this);
+        return new WebdockIterator($this);
     }
 }

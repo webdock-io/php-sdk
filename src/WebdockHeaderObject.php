@@ -1,5 +1,6 @@
 <?php
 namespace Webdock;
+use Psr\Http\Message\ResponseInterface;
 use ArrayAccess;
 use Iterator;
 
@@ -7,8 +8,9 @@ class WebdockHeaderObject implements ArrayAccess, Iterator
 {
     protected $headers = [];
     private $position = 0;
-    public function __construct(array $params)
+    public function __construct(ResponseInterface $response)
     {
+        $params = $response->getHeaders();
         $this->headers = $params;
     }
 
