@@ -15,7 +15,8 @@ class WebdockResponseObject
         $body = json_decode($response->getBody()->getContents());
         if (is_array($body)) {
             $this->response = new WebdockCollection($body);
-        } else {
+        }
+        if (is_object($body)) {
             $this->response = new WebdockObject($body);
         }
     }
