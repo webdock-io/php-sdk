@@ -1,5 +1,5 @@
 # php-sdk
-
+![CI](https://github.com/webdock-io/php-sdk/workflows/CI/badge.svg)
 > PHP SDK Library / Wrapper for the [Webdock](https://webdock.io) API
 
 ## Installation
@@ -391,7 +391,7 @@ Full API documentation is available at https://api.webdock.io/
   $serverSlug = 'mynewserver1';
   $shellUserId = 40591;
   $params = ['publicKeys' => [1293, 19283]];
-  $deleteShellUser = $client->serverShellUser->update(
+  $updateShellUser = $client->serverShellUser->update(
     $serverSlug,
     $shellUserId,
     $params
@@ -399,3 +399,267 @@ Full API documentation is available at https://api.webdock.io/
   ```
 
   </details>
+
+- **GET /account/scripts** Get a list of account scripts
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $accountScripts = $client->accountScript->list();
+  ```
+
+  </details>
+
+- **POST /account/scripts** Create an account script
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $params = [
+    'name' => 'my account script',
+    'filename' => 'filename',
+    'content' => 'the content',
+  ];
+  $createAccountScript = $client->accountScript->create($params);
+  ```
+
+  </details>
+
+- **GET /account/scripts/{scriptId}** Get an account script by ID
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $scriptId = 1203;
+  $accountScript = $client->accountScript->get($scriptId);
+  ```
+
+  </details>
+
+- **DELETE /account/scripts/{scriptId}** Delete an account script
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $scriptId = 1203;
+  $deleteAccountScript = $client->accountScript->delete($scriptId);
+  ```
+
+  </details>
+
+- **PATCH /account/scripts/{scriptId}** /account/scripts/{scriptId}
+  <details>
+      <summary> Show example </summary>
+
+  ```php
+  $scriptId = 1203;
+  $params = [
+    'name' => 'updated script#1',
+    'filename' => 'myscript.sh',
+    'content' => 'thecontent',
+  ];
+  $updateAccountScript = $client->accountScript->update($scriptId, $params);
+  ```
+
+    </details>
+
+- **GET /scripts** Get a list of public scripts
+  <details>
+      <summary> Show example </summary>
+
+  ```php
+  $scripts = $client->script->list();
+  ```
+
+    </details>
+
+- **GET /servers/{serverSlug}/scripts** Get a list of server scripts
+  <details>
+      <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $scripts = $client->serverScript->list($serverSlug);
+  ```
+
+    </details>
+
+- **POST /servers/{serverSlug}/scripts** Create a server script
+  <details>
+      <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $params = [
+    'scriptId' => 123,
+    'path' => '/path/to/script',
+    'makeScriptExecutable' => true,
+    'executeImmediately' => true,
+  ];
+  $createServerScript = $client->serverScript->create($serverSlug, $params);
+  ```
+
+    </details>
+
+- **GET /servers/{serverSlug}/scripts/{scriptId}** Get a server script by ID
+  <details>
+      <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $scriptId = 123;
+  $script = $client->serverScript->get($serverSlug, $scriptId);
+  ```
+
+    </details>
+
+- **DELETE /servers/{serverSlug}/scripts/{scriptId}** Delete a server script
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $scriptId = 123;
+  $deleteScript = $client->serverScript->delete($serverSlug, $scriptId);
+  ```
+
+  </details>
+
+- **POST /servers/{serverSlug}/scripts/{scriptId}/execute** Execute a server script
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $scriptId = 123;
+  $executeScript = $client->serverScript->executeScript($serverSlug, $scriptId);
+  $callbackId = $executeScript->getCallbackID();
+  ```
+
+  </details>
+
+- **POST /servers/{serverSlug}/fetchFile** Fetches a file from the server
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $filePath = '/path/to/file';
+  $fetchFile = $client->serverScript->fetchFile($serverSlug, $filePath);
+  ```
+
+    </details>
+
+- **GET /servers/{serverSlug}/metrics** Get server metrics
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $metric = $client->serverMetric->getMetrics($serverSlug);
+  ```
+
+  </details>
+
+- **GET ​/servers​/{serverSlug}​/metrics​/now** Get instant metrics
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $metric = $client->serverMetric->getMetricsNow($serverSlug);
+  ```
+
+  </details>
+
+- **GET /servers/{serverSlug}/snapshots** Get a list of snapshots for a server
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $snapshots = $client->serverSnapshot->list($serverSlug);
+  ```
+
+  </details>
+
+- **GET ​/servers​/{serverSlug}​/snapshots​/{snapshotId}** Get a snapshot by ID for a server
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $snapshotId = 1022;
+  $snapshot = $client->serverSnapshot->get($serverSlug, $snapshotId);
+  ```
+
+  </details>
+
+- **DELETE /servers/{serverSlug}/snapshots/{snapshotId}** Deletes a snapshot by ID for a server
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $serverSlug = 'mynewserver1';
+  $snapshotId = 1022;
+  $deleteSnapshot = $client->serverSnapshot->delete($serverSlug, $snapshotId);
+  ```
+
+  </details>
+
+- **GET /hooks** Get a list of event hooks
+  <details>
+      <summary> Show example </summary>
+
+  ```php
+  $eventHooks = $client->eventHook->list();
+  ```
+
+  </details>
+
+- **POST /hooks** Creates an event hook
+  <details>
+      <summary> Show example </summary>
+
+  ```php
+  $params = [
+    'callbackUrl' => 'the_callback_url',
+    'callbackId' => 10293,
+  ];
+  $createEventHook = $client->eventHook->create($params);
+  ```
+
+  </details>
+
+- **GET /hooks/{hookId}** Get an event hook by ID
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $hookId = 1223;
+  $eventHook = $client->eventHook->get($hookId);
+  ```
+
+  </details>
+
+- **DELETE /hooks/{hookId}** Deletes an event hook
+  <details>
+    <summary> Show example </summary>
+
+  ```php
+  $hookId = 1223;
+  $deleteEventHook = $client->eventHook->delete($hookId);
+  ```
+
+  </details>
+
+- **GET /events** Get a list of events
+  <details>
+      <summary> Show example </summary>
+
+  ```php
+  $params = [];
+  $events = $client->eventPoll->list($params);
+  ```
+
+    </details>
