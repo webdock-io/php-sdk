@@ -10,8 +10,8 @@ class ServerModel extends BaseEntity
             'slug' => ['string'],
             'profileSlug' => ['string'],
             'locationId' => ['string'],
-            'imageSlug' => ['string'],
-            'snapshotId' => ['string', 'nullable'],
+            'imageSlug' => ['nullable','string'],
+            'snapshotId' => ['nullable','string'],
         ];
     }
 }
