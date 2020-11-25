@@ -8,7 +8,7 @@
 
 To use the Webdock SDK, install it to your project with [Composer](https://getcomposer.org/doc/00-intro.md).
 
-- `composer require webdock/1.0.0`
+- `composer require webdock/php-sdk`
 
 ## Example Usage
 
